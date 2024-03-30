@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lifecycle-demo
+spec:
+  containers:
+  - name: my-container
+    image: my-container:latest
+    lifecycle:
+      preStop:
+        httpGet:
+          port: 8080
+          path: preStopShutdown
+  terminationGracePeriodSeconds: 120

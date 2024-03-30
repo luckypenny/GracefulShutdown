@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+spec:
+  selector:
+    matchLabels:
+      run: busybox
+  # replicas: 1
+  template:
+    metadata:
+      labels:
+        run: busybox
+    spec:
+      containers:
+      - name: busybox
+        command:
+        - sleep
+        - "3600"
+        image: busybox
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+        lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 10"]
+      terminationGracePeriodSeconds: 30  # Time to wait before moving from a TERM signal to the pod's main process to a KILL signal.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox
+  labels:
+    run: busybox
+spec:
+  ports:
+  - port: 80
+  selector:
+    run: busybox
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: busybox
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: busybox
+  minReplicas: 10
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
