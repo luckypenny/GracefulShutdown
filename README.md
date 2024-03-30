@@ -1,0 +1,6 @@
+- https://yang1s.tistory.com/33
+- https://devel-repository.tistory.com/13
+- https://peterica.tistory.com/186
+- https://findmypiece.tistory.com/321
+- https://spring.io/guides/topicals/spring-on-kubernetes
+- https://jenakim47.tistory.com/80
